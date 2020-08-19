@@ -7,7 +7,6 @@ from pydrive.files import GoogleDriveFileList
 from stat import *
 
 def auth():
-    #使用者身份認證
     gauth = GoogleAuth()
     # Try to load saved client credentials
     gauth.LoadCredentialsFile("credentials.json")
@@ -111,14 +110,14 @@ def upload_files_folder(drive,src_folder_name,parent_folder_id):
     except OSError:
         print(src_folder_name + ' is missing')
     # Auto-iterate through all files in the folder.
-    for file1 in os.listdir('.'): #list file in folder '.' 當前目錄
+    for file1 in os.listdir('.'): #list file in folder '.' 
         # Check the file's size
         statinfo = os.stat(file1)
         if S_ISDIR(statinfo.st_mode):
             result = create_folder(drive,file1,parent_folder_id)
             #print(result)
             upload_files_folder(drive,file1,result)
-        elif statinfo.st_size > 0: #不能為空的資料夾或是檔案
+        elif statinfo.st_size > 0: 
             print('uploading ' + file1)
             # Upload file to folder.
             f = drive.CreateFile(
@@ -128,7 +127,7 @@ def upload_files_folder(drive,src_folder_name,parent_folder_id):
         # Skip the file if it's empty
         else:
             print('file {0} is empty'.format(file1))
-    os.chdir('..') #進到資料夾後要回到原本的位置繼續listdir
+    os.chdir('..') 
 
 def upload(drive,filename,target_id):
     folder = drive.CreateFile({'id': target_id})
